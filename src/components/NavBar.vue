@@ -1,7 +1,7 @@
 <template>
 <div class="navBar">
   <ul>
-    <TreeView class="item" :model="treeData"></TreeView>
+    <TreeView class="item" :model="treeData" :selectItem="selectItem" :select="select"></TreeView>
   </ul>
 </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 
 import TreeView from "@/components/TreeView";
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
 
 export default {
   name: "NavBar",
@@ -19,10 +19,14 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      selectItem: 'fileManager/selectItem'
+    }),
   },
   computed:{
     ...mapState({
-      treeData: state => state.fileManager.treeData
+      treeData: state => state.fileManager.treeData,
+      select: state => state.fileManager.select
     })
   }
 }

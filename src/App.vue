@@ -3,7 +3,6 @@
     <HeaderComponent/>
     <NavBar/>
   </div>
-
 </template>
 
 <script>

@@ -1,7 +1,12 @@
 <template>
   <li class="li-item">
-    <div class="item_name" @click="toggle" @mouseover="OnMouseover" @mouseout="OnMouseout">
-      <span class="material-symbols-outlined" style="margin-right: 5px">
+    <div class="item_name"
+         :class="{item_name_select: isSelect(model.id)}"
+         @dblclick="toggle"
+         @click="selectItem(model.id)"
+         @mouseover="OnMouseover"
+         @mouseout="OnMouseout">
+      <span class="material-symbols-outlined" style="margin-right: 5px" @click="toggle">
         {{ model.file ? model.file : isOpen ? 'folder_open':'folder' }}
       </span>
       {{ model.name }}
@@ -9,6 +14,8 @@
     <div class="info" v-if="isMouseover">{{model.info}}</div>
     <ul v-show="isOpen" v-if="isFolder">
       <TreeView
+          :select="select"
+          :selectItem="selectItem"
           class="item"
           v-for="model in model.children"
           :key="model"
@@ -22,7 +29,9 @@
 export default {
   name: "TreeView",
   props: {
-    model: Object
+    model: Object,
+    select: String,
+    selectItem: Function
   },
   data() {
     return {
@@ -41,6 +50,10 @@ export default {
         this.isOpen = !this.isOpen
       }
     },
+    isSelect(name){
+      return name === this.select
+    },
+
     OnMouseover(){
      this.isMouseover = true
     },
@@ -72,7 +85,10 @@ export default {
   margin-left: 10px;
 }
 .item_name:hover{
-  background: #e0e0e0;
+  background: #eaeaea;
+}
+.item_name_select{
+  background: #cbcbcb;
 }
 .item_name{
   display: flex;
